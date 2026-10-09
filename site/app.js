@@ -43,7 +43,7 @@ if(filters){
 
 const quiz=document.querySelector('#selection');
 if(quiz){
- const questions=[{title:'Какой дом вы рассматриваете?',options:['Барнхаус','Каркасный дом','Пока выбираю']},{title:'Какая площадь вам нужна?',options:['До 60 м²','60–100 м²','100–150 м²','Больше 150 м²','Пока не определена']},{title:'Как планируете использовать дом?',options:['Постоянное проживание','Сезонное проживание','Гостевой дом']},{title:'Есть ли участок и проект?',options:['Есть участок и проект','Есть только участок','Пока выбираю участок']}];
+  const questions=[{title:'Какой дом вы рассматриваете?',options:['Барнхаус','Шале','Пока выбираю']},{title:'Какая площадь вам нужна?',options:['До 60 м²','60–100 м²','100–150 м²','Больше 150 м²','Пока не определена']},{title:'Как планируете использовать дом?',options:['Постоянное проживание','Сезонное проживание','Гостевой дом']},{title:'Есть ли участок и проект?',options:['Есть участок и проект','Есть только участок','Пока выбираю участок']}];
  const answers=Array(4).fill(null);let step=0;
  const render=()=>{
   document.querySelector('#step-label').textContent=`Шаг ${step+1} из 4`;document.querySelector('#selection-progress').value=step+1;
@@ -56,7 +56,7 @@ if(quiz){
  document.querySelector('#selection-next').addEventListener('click',()=>{if(!answers[step])return;if(step<3){step++;render();return;}const form=document.querySelector('form');form.elements.type.value=answers[0];form.elements.selection.value=questions.map((q,i)=>`${q.title} ${answers[i]}`).join('\n');document.querySelector('#contact').scrollIntoView();form.elements.name.focus({preventScroll:true});});render();
 }
 
-document.querySelectorAll('[data-stage]').forEach(button=>button.addEventListener('click',()=>{document.querySelectorAll('[data-stage]').forEach(el=>{el.classList.toggle('active',el===button);el.setAttribute('aria-pressed',String(el===button));});const image=document.querySelector('#stage-photo');image.src=image.src.replace(/(frame|roof|facade)\.jpg$/,`${button.dataset.stage}.jpg`);image.alt=button.querySelector('strong').textContent;}));
+document.querySelectorAll('[data-stage]').forEach(button=>button.addEventListener('click',()=>{document.querySelectorAll('[data-stage]').forEach(el=>{el.classList.toggle('active',el===button);el.setAttribute('aria-pressed',String(el===button));});const image=document.querySelector('#stage-photo');image.src=button.dataset.stage==='frame'?image.src.replace(/(frame|roof|facade)\.jpg$|barnhaus-interior\.webp$/,'barnhaus-interior.webp'):image.src.replace(/(frame|roof|facade)\.jpg$|barnhaus-interior\.webp$/,`${button.dataset.stage}.jpg`);image.alt=button.querySelector('strong').textContent;}));
 const photoDialog=document.querySelector('#photo-dialog');
 document.querySelectorAll('[data-gallery],.visual-grid figure,.house-banner').forEach(element=>{
  const open=()=>{const image=element.querySelector('img');photoDialog.querySelector('img').src=image.src;photoDialog.querySelector('img').alt=image.alt;photoDialog.querySelector('p').textContent=element.querySelector('figcaption')?.textContent||image.alt;photoDialog.showModal();};
